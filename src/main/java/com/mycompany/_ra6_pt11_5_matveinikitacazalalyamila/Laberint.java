@@ -23,7 +23,7 @@ public class Laberint {
     }
     
     /**
-     * Constructor parametritzat per donar la dimennsió desitjada al laberint i
+     * Constructor parametritzat per donar la dimensió desitjada al laberint i
      * determinar de quina taula de multiplicar es farà.
      * 
      * @param altura
@@ -43,5 +43,19 @@ public class Laberint {
     
     private void omplirLaberint(){
         
+    }
+    
+    /**
+     * Mètode mostrarLaberint per mostrar el laberint amb un format de caselles
+     */
+    public void mostrarLaberint(){
+        for (int i = 0; i < laberint.length; i++) {
+            System.out.print("|");
+            for (int j = 0; j < laberint.length; j++) {
+                System.out.print(laberint[i][j]);
+                System.out.print("|");
+            }
+            System.out.print("\n");
+        }
     }
 }
