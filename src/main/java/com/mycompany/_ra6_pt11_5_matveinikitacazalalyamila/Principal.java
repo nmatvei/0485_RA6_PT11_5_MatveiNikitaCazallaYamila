@@ -17,10 +17,13 @@ public class Principal {
         boolean demanarDades = false;
         
         System.out.println("DEMOSTRACIÓ DE LA CLASSE LABERINT");
-        while(!demanarDades){
+        /*while(!demanarDades){
             try{
                 
             } catch (Exception e) {System.err.println(e.getMessage());}
-        }
+        }*/
+        
+        laberint = new Laberint();
+        System.out.println(laberint.getDimensio());
     }
 }

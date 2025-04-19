@@ -37,6 +37,14 @@ public class Laberint {
         this.taulaMultiplicacio = taulaMultiplicacio;
     }
     
+    /**
+     * Mètode GET per saber la dimensió del laberint
+     * @return 
+     */
+    public String getDimensio(){
+        return amplada + " x " + altura;
+    }
+    
     private void generarCami(){
         
     }
@@ -46,7 +54,7 @@ public class Laberint {
     }
     
     /**
-     * Mètode mostrarLaberint per mostrar el laberint amb un format de caselles
+     * Mètode per mostrar el laberint amb un format de caselles
      */
     public void mostrarLaberint(){
         for (int i = 0; i < laberint.length; i++) {
