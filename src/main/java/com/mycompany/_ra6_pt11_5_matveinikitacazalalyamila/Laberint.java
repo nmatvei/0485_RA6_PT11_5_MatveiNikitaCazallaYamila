@@ -48,7 +48,6 @@ public class Laberint {
 
         for (int i = 0; i < 10; i++) {
             taulaMulti.add(i + 1);
-            System.out.println(i + 1);
         }
 
     }
@@ -64,11 +63,9 @@ public class Laberint {
 
         while (!camiGenerat) {
 
-            System.out.println("f");
             if (i == 0 && j == 0) {
                 laberint[i][j] = 0;
             }
-            System.out.println(laberint[i].length);
 
             if (i == (laberint.length - 1) && j == (laberint[i].length - 1)) {
                 direccioAleatoria = FI;
@@ -88,20 +85,16 @@ public class Laberint {
                     numMult = (int) (Math.random() * 10);
                     laberint[i][j] = taulaMulti.get(numMult) * numeroMulti;
                     cami.add(direccioAleatoria);
-                    mostrarLaberint();
                     break;
                 case DRETA:
                     j++;
                     numMult = (int) (Math.random() * 10);
                     laberint[i][j] = taulaMulti.get(numMult) * numeroMulti;
                     cami.add(direccioAleatoria);
-                    mostrarLaberint();
                     break;
                 case FI:
                     laberint[i][j] = 0;
                     camiGenerat = true;
-                    System.out.println("fi");
-                    System.out.println(cami);
                     break;
             }
 
