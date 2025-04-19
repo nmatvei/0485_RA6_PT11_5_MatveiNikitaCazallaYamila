@@ -1,6 +1,7 @@
 package com.mycompany._ra6_pt11_5_matveinikitacazalalyamila;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -11,9 +12,10 @@ public class Laberint {
     /*Declaració de variables i atributs*/
     private int altura;
     private int amplada;
-    private int taulaMultiplicacio;
+    private int numeroMulti;
     ArrayList<Integer> taulaMulti;
     private int[][] laberint;
+    ArrayList<Integer> cami;
     private final static int ALTURA_DEFAULT = 5;
     private final static int AMPLADA_DEFAULT = 8;
     private final static int TAULA_MULTIPLICACIO_DEFAULT = 5;
@@ -31,50 +33,79 @@ public class Laberint {
      *
      * @param altura
      * @param amplada
-     * @param taulaMultiplicacio
+     * @param numeroMulti
      */
-    public Laberint(int altura, int amplada, int taulaMultiplicacio) {
+    public Laberint(int altura, int amplada, int numeroMulti) {
         this.altura = altura;
         this.amplada = amplada;
         this.laberint = new int[altura][amplada];
-        this.taulaMultiplicacio = taulaMultiplicacio;
+        this.numeroMulti = numeroMulti;
     }
 
-    public void generarTaulaMult(int num) {
+    public void generarTaulaMult() {
 
         taulaMulti = new ArrayList<>();
 
-        for (int i = 0; i < num; i++) {
+        for (int i = 0; i < 10; i++) {
             taulaMulti.add(i + 1);
             System.out.println(i + 1);
         }
 
     }
 
-    public void generarCami(int fila, int columna) {
+    public void generarCami() {
 
+        cami = new ArrayList<>();
+
+        final int AVALL = 0, DRETA = 1, FI = 2;
+        int i = 0, j = 0;
+        int direccioAleatoria;
         boolean camiGenerat = false;
 
-        if (fila > 0 && columna > 0) {
+        while (!camiGenerat) {
 
-            while (!camiGenerat) {
+            System.out.println("f");
+            if (i == 0 && j == 0) {
+                laberint[i][j] = 0;
+            }
+            System.out.println(laberint[i].length);
 
-                int numAleatoriF = (int) (Math.random() * (fila));
-                int numAleatoriC = (int) (Math.random() * (columna));
-                int i = 0, j = 0;
-
+            if (i == (laberint.length - 1) && j == (laberint[i].length - 1)) {
+                direccioAleatoria = FI;
+            } else if (i == (laberint.length - 1)) {
+                direccioAleatoria = DRETA;
+            } else if (j == (laberint[i].length - 1)) {
+                direccioAleatoria = AVALL;
+            } else {
+                // Número aleatori que només dona 0 i/o 1
+                direccioAleatoria = (int) (Math.random() * 2);
             }
 
-        } else if (fila > 0) {
-
-            for (int i = 0; i < fila; i++) {
-
+            int numMult;
+            switch (direccioAleatoria) {
+                case AVALL:
+                    i++;
+                    numMult = (int) (Math.random() * 10);
+                    laberint[i][j] = taulaMulti.get(numMult) * numeroMulti;
+                    cami.add(direccioAleatoria);
+                    mostrarLaberint();
+                    break;
+                case DRETA:
+                    j++;
+                    numMult = (int) (Math.random() * 10);
+                    laberint[i][j] = taulaMulti.get(numMult) * numeroMulti;
+                    cami.add(direccioAleatoria);
+                    mostrarLaberint();
+                    break;
+                case FI:
+                    laberint[i][j] = 0;
+                    camiGenerat = true;
+                    System.out.println("fi");
+                    System.out.println(cami);
+                    break;
             }
-
-        } else if (columna > 0) {
 
         }
-
     }
 
     public void omplirLaberint() {
@@ -94,7 +125,7 @@ public class Laberint {
     public void mostrarLaberint() {
         for (int i = 0; i < laberint.length; i++) {
             System.out.print("|");
-            for (int j = 0; j < laberint.length; j++) {
+            for (int j = 0; j < laberint[i].length; j++) {
                 System.out.print(laberint[i][j]);
                 System.out.print("|");
             }
