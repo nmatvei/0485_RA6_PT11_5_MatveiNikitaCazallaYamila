@@ -13,13 +13,19 @@ public class Principal {
     public static void main(String[] args) {
 
         System.out.println("DEMOSTRACIÓ DE LA CLASSE LABERINT");
-
-        Laberint l = new Laberint(4,6,3);
         
+        System.out.println("-- Generació de laberint --");
+        Laberint l = new Laberint(4,6,3);
         l.generarTaulaMult();
-        //l.omplirLaberint();
+        l.omplirLaberint();
         l.generarCami();
         l.mostrarLaberint();
+        
+        System.out.println("-- Inici joc --");
+        System.out.println("Et trobes en aquesta posició: ");
+        l.posicioJugador();
+        
+        
         
 
     }
