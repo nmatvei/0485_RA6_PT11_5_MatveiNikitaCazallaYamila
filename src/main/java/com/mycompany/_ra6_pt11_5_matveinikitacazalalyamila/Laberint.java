@@ -40,7 +40,7 @@ public class Laberint {
     }
     
     /**
-     * Mètode GET per saber la dimensió del laberint
+     * Mètode per saber la dimensió del laberint
      * @return la dimensió del laberint
      */
     public String getDimensio(){
@@ -57,7 +57,7 @@ public class Laberint {
     
     /**
      * Métode per generar un cami aleatori en el laberint amb els valors de
-     * la taula de multiplicar escollida. En el camí es generat pensant que el 
+     * la taula de multiplicar escollida. El camí es generat pensant que el 
      * moviment només pot ser cap a la dreta o cap avall.
      */
     private void generarCami(){
