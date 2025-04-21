@@ -1,195 +1,156 @@
 package com.mycompany._ra6_pt11_5_matveinikitacazalalyamila;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashSet;
 
 /**
- *
+ * Classe Laberint per crear un laberint amb un camí que sigui amb valora d'una 
+ * taula de multiplicar i la resta del laberint sigui amb valors aleatoris que 
+ * siguin del camí
+ * 
  * @author Nikita i Yamila
  */
 public class Laberint {
-
+    
     /*Declaració de variables i atributs*/
-    private int altura;
-    private int amplada;
-    private int numeroMulti;
-    private String[][] posicioJugador;
-    ArrayList<Integer> taulaMulti;
+    private int taulaMultiplicacio;
     private String[][] laberint;
-    ArrayList<Integer> cami;
-    private final static int ALTURA_DEFAULT = 5;
-    private final static int AMPLADA_DEFAULT = 8;
-    private final static int TAULA_MULTIPLICACIO_DEFAULT = 5;
-
+    private final static int ALTURA_DEFAULT = 5, AMPLADA_DEFAULT = 8, 
+            TAULA_MULTIPLICACIO_DEFAULT = 5;
+    
     /**
      * Constructor per defecte que truca al parametritzat
      */
-    public Laberint() {
+    public Laberint(){
         this(ALTURA_DEFAULT, AMPLADA_DEFAULT, TAULA_MULTIPLICACIO_DEFAULT);
     }
-
+    
     /**
      * Constructor parametritzat per donar la dimensió desitjada al laberint i
      * determinar de quina taula de multiplicar es farà.
-     *
+     * 
      * @param altura
      * @param amplada
-     * @param numeroMulti
+     * @param taulaMultiplicacio 
      */
-    public Laberint(int altura, int amplada, int numeroMulti) {
-        this.altura = altura;
-        this.amplada = amplada;
+    public Laberint(int altura, int amplada, int taulaMultiplicacio) {
         this.laberint = new String[altura][amplada];
-        this.numeroMulti = numeroMulti;
+        this.taulaMultiplicacio = taulaMultiplicacio;
+        this.generarCami();
+        this.omplirLaberint();
     }
-
-    public void generarTaulaMult() {
-
-        taulaMulti = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            taulaMulti.add(i + 1);
-        }
-
+    
+    /**
+     * Mètode per saber la dimensió del laberint
+     * @return la dimensió del laberint
+     */
+    public String getDimensio(){
+        return laberint.length + " x " + laberint[0].length;
     }
-
-    public void generarCami() {
-
-        cami = new ArrayList<>();
-
-        final int AVALL = 0, DRETA = 1, FI = 2;
+    
+    /**
+     * Mètode per saber quina taula de multiplicar en la que es basa el camí
+     * @return la taula de multiplicar del camí
+     */
+    public int getTaulaMultiplicacio() {
+        return taulaMultiplicacio;
+    }
+    
+    /**
+     * Métode per generar un cami aleatori en el laberint amb els valors de
+     * la taula de multiplicar escollida. El camí es generat pensant que el 
+     * moviment només pot ser cap a la dreta o cap avall.
+     */
+    private void generarCami(){
+        /*Declaració de variables*/
+        int direccio, multiplicant;
+        boolean generacioCami = false;
         int i = 0, j = 0;
-        int direccioAleatoria;
-        boolean camiGenerat = false;
-
-        while (!camiGenerat) {
-
+        final int AVALL = 0, DRETA = 1;
+        
+        /*Estructura WHILE per anar generant el camí*/
+        while(!generacioCami){
+            /*Si és la primera posició, indiquem el inici del camí amb una I*/
             if (i == 0 && j == 0) {
                 laberint[i][j] = "I";
             }
-
-            if (i == (laberint.length - 1) && j == (laberint[i].length - 1)) {
-                direccioAleatoria = FI;
-            } else if (i == (laberint.length - 1)) {
-                direccioAleatoria = DRETA;
-            } else if (j == (laberint[i].length - 1)) {
-                direccioAleatoria = AVALL;
-            } else {
-                // Número aleatori que només dona 0 i/o 1
-                direccioAleatoria = (int) (Math.random() * 2);
+            
+            /*Comprovem si estem al final (part inferior dreta)*/
+            if (i == (laberint.length - 1) && j == (laberint[0].length - 1)){
+                this.laberint[i][j] = "F";
+                generacioCami = true;
             }
-
-            int numMult;
-            switch (direccioAleatoria) {
-                case AVALL:
-                    i++;
-                    numMult = (int) (Math.random() * 10);
-                    laberint[i][j] = Integer.toString(taulaMulti.get(numMult) * numeroMulti);
-                    cami.add(direccioAleatoria);
-                    break;
-                case DRETA:
-                    j++;
-                    numMult = (int) (Math.random() * 10);
-                    laberint[i][j] = Integer.toString(taulaMulti.get(numMult) * numeroMulti);
-                    cami.add(direccioAleatoria);
-                    break;
-                case FI:
-                    laberint[i][j] = "F";
-                    camiGenerat = true;
-                    break;
-            }
-            System.out.println(cami);
-        }
-    }
-
-    public void omplirLaberint() {
-
-        for (int i = 0; i < altura; i++) {
-            for (int j = 0; j < amplada; j++) {
-                if (!(i == 0 && j == 0)) {
-                    laberint[i][j] = Integer.toString((int) (Math.random() * 101));
+            /*Si no estem ni al inici ni el final, determinem les condicions per
+            generar el camí*/
+            else{
+                
+                /*Si estem a la part inferior del laberint, només podem moure a 
+                la dreta*/
+                if (i == (laberint.length - 1)) {
+                    direccio = DRETA;
+                } 
+                
+                /*Si estem a la part dreta, només podem moure avall*/
+                else if (j == (laberint[i].length - 1)) {
+                    direccio = AVALL;
                 }
+                
+                /*Si estem en qualsevol altra part, es decideix aleatòriament 
+                (entre dreta o avall)*/
+                else {
+                    direccio = (int) (Math.random() * 2);
+                }
+
+                /*Estructura SWITCH para determinar en base  a la direcció decidida,
+                on possem un nombre pel cami*/
+                multiplicant = (int) (Math.floor(Math.random() * 10));
+                switch (direccio){
+                    case AVALL -> i++;
+                    case DRETA -> j++;
+                }
+                this.laberint[i][j] = Integer.toString(multiplicant * taulaMultiplicacio);
             }
         }
-    }
-
-    public void posicioJugador() {
-
-        int iPosicioJ = 0, jPosicioJ = 0;
-        String respostaM;
-        int incrementadorCami = 0;
-
-        while (!(iPosicioJ == (laberint.length - 1) &&
-                jPosicioJ == (laberint[iPosicioJ].length - 1))) {
-            
-            Scanner sc = new Scanner(System.in);
-            
-            for (int i = 0; i < laberint.length; i++) {
-                System.out.print("|");
-                for (int j = 0; j < laberint[i].length; j++) {
-                    if (i == iPosicioJ && j == jPosicioJ) {
-                        System.out.print("X");
-                        System.out.print("|");
-                    } else {
-                        System.out.print(laberint[i][j]);
-                        System.out.print("|");
-                    }
-                }
-                System.out.print("\n");
-            }
-            
-            System.out.print("On vols anar:"
-                    + "\n\t- Dreta (D)"
-                    + "\n\t- Avall (A)"
-                    + "\nResposta: ");
-            respostaM = sc.nextLine();
-            
-            if (respostaM.equalsIgnoreCase("D")) {
-                
-                if (comprovarCami(incrementadorCami, 1)) {
-                    jPosicioJ++;
-                } else {
-                    System.out.println("La direcció és incorrecte, torna a intentar-ho.");
-                }
-                
-            } else if (respostaM.equalsIgnoreCase("A")) {
-                
-                if (comprovarCami(incrementadorCami, 0)) {
-                    iPosicioJ++;
-                } else {
-                    System.out.println("La direcció és incorrecte, torna a intentar-ho.");
-                }
-                
-            } else {
-                System.out.println("Resposta incorrecte.");
-            }
-            incrementadorCami++;
-        }
-
     }
     
-    private boolean comprovarCami(int posCami, int direccio) {
+    /**
+     * Métode per omplir el laberint sense modificar el camí amb valors que no 
+     * siguin d'aquest.
+     */
+    private void omplirLaberint(){
+        /*Declaració de variables*/
+        HashSet<String> valorsDelCami = new HashSet<>();
+        String valor;
         
-        boolean camiCorrecte = false;
-        
-        int camiD = cami.get(posCami);
-        
-        if (camiD == direccio) {
-            camiCorrecte = true;
+        /*Estructura FOR per tal de tindre una llista dels nombres de la taula de
+        multiplicar que escollim*/
+        for (int i = 0; i <= 10; i++) {
+            valorsDelCami.add(Integer.toString(i * taulaMultiplicacio));
         }
         
-        return camiCorrecte;
+        /*Doble estructura FOR per anar omplint les caselles que no siguin del 
+        cami amb valors que no siguin del llistat de valors que s'ha creat 
+        anteriorment*/
+        for (int i = 0; i < laberint.length; i++) {
+            for (int j = 0; j < laberint[i].length; j++) {
+                if (laberint[i][j] == null){
+                    do{
+                        valor = Integer.toString((int)Math.floor((Math.random()*10) * (Math.random())*10));
+                    } while(valorsDelCami.contains(valor));
+                    laberint[i][j] = valor;
+                }
+            }
+        }
     }
-
+    
     /**
-     * Mètode mostrarLaberint per mostrar el laberint amb un format de caselles
+     * Mètode per mostrar el laberint amb un format de caselles
      */
-    public void mostrarLaberint() {
+    public void mostrarLaberint(){
         for (int i = 0; i < laberint.length; i++) {
             System.out.print("|");
             for (int j = 0; j < laberint[i].length; j++) {
-                System.out.print(laberint[i][j]);
-                System.out.print("|");
+                /*Utilitzem printf per donar el format que volguem*/
+                System.out.printf(" %3s |", laberint[i][j]);
             }
             System.out.print("\n");
         }
