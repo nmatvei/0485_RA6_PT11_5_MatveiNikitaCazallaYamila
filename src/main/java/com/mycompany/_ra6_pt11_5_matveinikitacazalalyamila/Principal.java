@@ -11,19 +11,12 @@ import java.util.Scanner;
 public class Principal {
 
     public static void main(String[] args) {
-        /*Declaració de variables*/
-        Scanner sc = new Scanner(System.in);
-        Laberint laberint;
-        boolean demanarDades = false;
-        
         System.out.println("DEMOSTRACIÓ DE LA CLASSE LABERINT");
-        /*while(!demanarDades){
-            try{
-                
-            } catch (Exception e) {System.err.println(e.getMessage());}
-        }*/
         
-        laberint = new Laberint();
-        System.out.println(laberint.getDimensio());
+        Laberint laberint = new Laberint(8, 4, 10);
+        System.out.println("Un " + laberint.getDimensio() + " de la taula del 10");
+        
+        laberint.mostrarLaberint();
+        System.out.println();
     }
 }
