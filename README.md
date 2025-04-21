@@ -7,6 +7,8 @@ continguin resultats vàlids de la taula de multiplicar seleccionada. Ens donen 
 exemple:
 
 <ins>**Taula 5**</ins>
+
+
 ![image](https://github.com/user-attachments/assets/48fb8bfe-197d-4c7b-9cde-dc7d2b34c421)
 
 Analitzant el problema a solucionar, determinem les següents especificacions:
